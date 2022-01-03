@@ -24,6 +24,20 @@ namespace Microsoft.Maui.Controls
 		{
 			return DefaultRouteFactory(null, type).GetOrCreate();
 		}
+		public static MauiAppBuilder ConfigureDefaultRouteFactory(this MauiAppBuilder builder, Func<string, Type, RouteFactory> defaultRouteFactory)
+		{
+			if (defaultRouteFactory == null)
+				return builder;
+			if (s_defaultRouteFactory != null)
+				throw new InvalidOperationException("The default method for creating a Route Factory can only be set once before being called for the first time.");
+			s_defaultRouteFactory = defaultRouteFactory;
+			return builder;
+		}
+		public static MauiAppBuilder ConfigureDefaultRouteFactory<TRouteFactory>(this MauiAppBuilder builder) where TRouteFactory : RouteFactory
+		{
+			builder.ConfigureDefaultRouteFactory((str, type) => Activator.CreateInstance(typeof(TRouteFactory), str, type) as RouteFactory);
+			return builder;
+		}
 #endif
 		// We only need these while a navigation is happening
 		internal static void ClearImplicitPageRoutes()
