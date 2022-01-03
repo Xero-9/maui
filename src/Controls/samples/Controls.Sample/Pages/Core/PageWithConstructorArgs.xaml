@@ -1,0 +1,22 @@
+﻿<views:BasePage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:Maui.Controls.Sample.Pages.Base"
+    xmlns:pages="clr-namespace:Maui.Controls.Sample.Pages"
+    x:Class="Maui.Controls.Sample.Pages.PageWithConstructorArgs"
+    mc:Ignorable="d" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="PageWithConstructorArgs">
+    <d:ContentPage.BindingContext>
+        <pages:SomeViewModel />
+    </d:ContentPage.BindingContext>
+    <VerticalStackLayout>
+        <Label Text='Using a custom RouteFactory can enable constructor injection. SomeViewModel has a default text of "Hello World" which is not the same as the one injected below.'
+               TextColor="RoyalBlue"
+               FontSize="16"
+               HorizontalTextAlignment="Center"/>
+        <HorizontalStackLayout>
+            <Label Text="Text = " FontSize="14"/>
+            <Label Text="{Binding Text}" FontSize="14"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</views:BasePage>

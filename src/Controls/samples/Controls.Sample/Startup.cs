@@ -15,6 +15,8 @@ using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Essentials;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
+using Maui.Controls.Sample.Pages.ShellGalleries;
+using Maui.Controls.Sample.Xaminals;
 
 #if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Components.WebView.Maui;
@@ -28,8 +30,8 @@ namespace Maui.Controls.Sample
 	{
 		static bool UseMauiGraphicsSkia = false;
 
-		enum PageType { Main, Blazor, Shell, Template, FlyoutPage }
-		readonly static PageType _pageType = PageType.Main;
+		enum PageType { Main, Blazor, Shell, Template, FlyoutPage, Xaminals }
+		readonly static PageType _pageType = PageType.Xaminals;
 
 		public static MauiApp CreateMauiApp()
 		{
@@ -113,8 +115,9 @@ namespace Maui.Controls.Sample
 				serviceType: typeof(Page),
 				implementationType: _pageType switch
 				{
+					PageType.Xaminals => typeof(Xaminals.AppShell),
 					PageType.Template => typeof(TemplatePage),
-					PageType.Shell => typeof(AppShell),
+					PageType.Shell => typeof(Pages.AppShell),
 					PageType.Main => typeof(CustomNavigationPage),
 					PageType.FlyoutPage => typeof(CustomFlyoutPage),
 					PageType.Blazor =>
@@ -225,8 +228,54 @@ namespace Maui.Controls.Sample
 						return true;
 					}
 				});
-
+			services.RegisterShellPages();
+#if ENABLE_DI_CHANGES			
+			appBuilder.ConfigureDefaultRouteFactory((route, type) => new CustomRouteFactory(route, type));
+			services.RegisterXaminalsViewAndViewModels();
+			services.RegisterXaminalsDataStores();
+#elif USE_PARTIAL_DI
+			services.RegisterXaminalsViewAndViewModels();
+			services.RegisterXaminalsDataStores();
+#endif
 			return appBuilder.Build();
+		}
+
+		static void RegisterShellPages(this IServiceCollection services)
+		{
+			services.AddTransient<ButtonPage>();
+			services.AddTransient<SemanticsPage>();
+			services.AddTransient<PageWithConstructorArgs>();
+			services.AddTransient<ShellChromeGallery>();
+			services.AddTransient<SomeViewModel>(services =>
+				new SomeViewModel() { Text = "Hello From A Different World" });
+		}
+	}
+	class CustomRouteFactory : RouteFactory
+	{
+		static IServiceProvider Services { get; } = ((XamlApp)Application.Current).Services;
+		readonly Type _type;
+		string _route;
+		public CustomRouteFactory(string route, Type type)
+		{
+			_route = route;
+			_type = type;
+		}
+
+		public override Element GetOrCreate()
+		{
+			return Services.GetService(_type) as Element;			
+		}
+		public override bool Equals(object obj)
+		{
+			if ((obj is CustomRouteFactory routeFactory))
+				return routeFactory._type == _type;
+
+			return false;
+		}
+
+		public override int GetHashCode()
+		{
+			return _type.GetHashCode();
 		}
 	}
 }

@@ -18,5 +18,6 @@
     <ShellSection Title="Flyout Item 3">
         <ShellContent Title = "Semantics Page" ContentTemplate="{DataTemplate pages:SemanticsPage}"></ShellContent>
         <ShellContent Title = "Button Page" ContentTemplate="{DataTemplate pages:ButtonPage}"></ShellContent>
+        <ShellContent Title = "Page With Constructor Args" ContentTemplate="{DataTemplate pages:PageWithConstructorArgs}"></ShellContent>
     </ShellSection>
 </Shell>

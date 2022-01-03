@@ -53,6 +53,15 @@
     <MauiImage Update="Resources\Images\*.gif" Resize="false" />
     <MauiIcon Include="Resources\AppIcons\appicon.svg" ForegroundFile="Resources\AppIcons\appicon_foreground.svg" />
     <MauiFont Include="Resources\Fonts\*" />
+    <Compile Remove="Xaminals\Resources\**" />
+    <Content Remove="Xaminals\Resources\**" />
+    <EmbeddedResource Remove="Xaminals\Resources\**" />
+    <MauiCss Remove="Xaminals\Resources\**" />
+    <MauiXaml Remove="Xaminals\Resources\**" />
+    <None Remove="Xaminals\Resources\**" />
+    <Compile Remove="Xaminals\App.xaml.cs" />
+    <Compile Remove="Xaminals\CustomRouteFactory.cs" />
+    <MauiXaml Remove="Xaminals\App.xaml" />
     <MauiSplashScreen Include="Resources\Images\dotnet_bot.svg" Color="#FFFFFF" />
   </ItemGroup>
 
@@ -60,8 +69,54 @@
     <MauiXaml Update="Pages\Compatibility\AndExpandPage.xaml">
       <Generator></Generator>
     </MauiXaml>
+    <MauiXaml Update="Xaminals\AppShell.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Controls\FlyoutFooter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Controls\FlyoutHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\BearDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\BearsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\CatDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\CatsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\DogDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\DogsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\ElephantDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\ElephantsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\MonkeyDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="Xaminals\Views\MonkeysPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
 
   <Import Condition=" '$(UseMaui)' != 'true' " Project="..\..\..\BlazorWebView\src\Maui\build\Microsoft.AspNetCore.Components.WebView.Maui.targets" />
+
+  <ItemGroup>
+    <_MauiXamlToRemove Remove="Xaminals\Resources\**" />
+  </ItemGroup>
 
 </Project>
