@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Hosting;
 
 namespace Microsoft.Maui.Controls
 {
@@ -14,8 +16,16 @@ namespace Microsoft.Maui.Controls
 		const string ImplicitPrefix = "IMPL_";
 		const string DefaultPrefix = "D_FAULT_";
 		internal const string PathSeparator = "/";
+#if ENABLE_DI_CHANGES
+		static Func<string, Type, RouteFactory> s_defaultRouteFactory;
+		static Func<string, Type, RouteFactory> DefaultRouteFactory => s_defaultRouteFactory ??= (_, type) => new TypeRouteFactory(type);
 
-		// We only need these while a navigation is happening 
+		internal static object GetOrCreateContentFromTemplate(Type type)
+		{
+			return DefaultRouteFactory(null, type).GetOrCreate();
+		}
+#endif
+		// We only need these while a navigation is happening
 		internal static void ClearImplicitPageRoutes()
 		{
 			s_implicitPageRoutes.Clear();
@@ -194,7 +204,11 @@ namespace Microsoft.Maui.Controls
 
 		public static void RegisterRoute(string route, Type type)
 		{
+#if ENABLE_DI_CHANGES
+			RegisterRoute(route, DefaultRouteFactory(route, type));
+#else
 			RegisterRoute(route, new TypeRouteFactory(type));
+#endif
 		}
 
 		public static void SetRoute(Element obj, string value)
@@ -226,7 +240,6 @@ namespace Microsoft.Maui.Controls
 		class TypeRouteFactory : RouteFactory
 		{
 			readonly Type _type;
-
 			public TypeRouteFactory(Type type)
 			{
 				_type = type;

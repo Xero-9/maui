@@ -21,7 +21,11 @@ namespace Microsoft.Maui.Controls
 
 			_canRecycle = true;
 
+#if ENABLE_DI_CHANGES
+			LoadTemplate = () => Routing.GetOrCreateContentFromTemplate(type);
+#else
 			LoadTemplate = () => Activator.CreateInstance(type);
+#endif
 		}
 
 		internal ElementTemplate(Func<object> loadTemplate) : this() => LoadTemplate = loadTemplate ?? throw new ArgumentNullException("loadTemplate");
