@@ -15,7 +15,7 @@ using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Essentials;
 using Microsoft.Maui.Hosting;
 using Microsoft.Maui.LifecycleEvents;
-
+using Maui.Controls.Sample.Xaminals;
 #if NET6_0_OR_GREATER
 using Microsoft.AspNetCore.Components.WebView.Maui;
 #endif
@@ -28,8 +28,8 @@ namespace Maui.Controls.Sample
 	{
 		static bool UseMauiGraphicsSkia = false;
 
-		enum PageType { Main, Blazor, Shell, Template, FlyoutPage, TabbedPage }
-		readonly static PageType _pageType = PageType.Main;
+		enum PageType { Main, Blazor, Shell, Template, FlyoutPage, TabbedPage, Xaminals }
+		readonly static PageType _pageType = PageType.Xaminals;
 
 		public static MauiApp CreateMauiApp()
 		{
@@ -113,8 +113,9 @@ namespace Maui.Controls.Sample
 				serviceType: typeof(Page),
 				implementationType: _pageType switch
 				{
+					PageType.Xaminals => typeof(Xaminals.AppShell),
 					PageType.Template => typeof(TemplatePage),
-					PageType.Shell => typeof(AppShell),
+					PageType.Shell => typeof(Pages.AppShell),
 					PageType.Main => typeof(CustomNavigationPage),
 					PageType.FlyoutPage => typeof(CustomFlyoutPage),
 					PageType.TabbedPage => typeof(Pages.TabbedPageGallery),
@@ -229,7 +230,11 @@ namespace Maui.Controls.Sample
 						return true;
 					}
 				});
-
+			if(_pageType == PageType.Xaminals)
+			{
+				services.RegisterXaminalsViewAndViewModels();
+				services.RegisterXaminalsDataStores();
+			}
 			return appBuilder.Build();
 		}
 	}

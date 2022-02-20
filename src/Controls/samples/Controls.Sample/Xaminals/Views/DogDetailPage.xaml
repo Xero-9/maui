@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Maui.Controls.Sample.Xaminals.Views.DogDetailPage"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:Maui.Controls.Sample.Xaminals.ViewModels"
+             mc:Ignorable="d"
+             Title="Dog Details">
+  <d:ContentPage.BindingContext>
+    <vm:DogDetailViewModel />
+  </d:ContentPage.BindingContext>
+  <ScrollView>
+        <StackLayout Margin="20">
+            <Label Text="{Binding Dog.Name}"
+                   HorizontalOptions="Center"
+                   Style="{DynamicResource TitleStyle}" />
+            <Label Text="{Binding Dog.Location}"
+                   FontAttributes="Italic"
+                   HorizontalOptions="Center" />
+            <Image Source="{Binding Dog.ImageUrl}"
+                   HeightRequest="200"
+                   WidthRequest="200"
+                   HorizontalOptions="CenterAndExpand" />
+            <Label Text="{Binding Dog.Details}"
+                   Style="{DynamicResource BodyStyle}" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

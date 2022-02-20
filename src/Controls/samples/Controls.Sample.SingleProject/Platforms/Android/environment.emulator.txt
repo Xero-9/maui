@@ -1,0 +1,1 @@
+DOTNET_DiagnosticPorts=tmp/maui-app,suspend
